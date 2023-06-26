@@ -86,3 +86,86 @@ $ go get github.com/kataras/iris/v12@latest
 
 更多参考官网：https://www.iris-go.com/docs
 ```
+
+### ubuntu 20.4 部署go项目
+```text
+1.下载适用于 Ubuntu 20.04 的 Go 二进制分发版本
+wget https://golang.org/dl/go1.17.4.linux-amd64.tar.gz
+
+2.解压下载的压缩文件
+tar -C /usr/local -xzf go1.17.4.linux-amd64.tar.gz
+
+3.配置 Go 的环境变量（例如 ~/.bashrc 或 ~/.profile等）
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+4.使配置生效
+source ~/.bashrc
+
+5.安装 Git
+sudo apt update
+sudo apt install git
+
+6.进入存放项目的path 克隆项目代码
+
+git clone https://github.com/your-username/your-repository.git
+
+请将 your-username 替换为你的 GitHub 用户名，将 your-repository 替换为你的代码仓库名称。
+
+7.构建项目：进入项目目录，并使用以下命令构建项目
+go build
+这将生成一个可执行文件。
+
+8.运行可执行文件
+./your_executable_file
+
+9.配置服务：为了使项目在后台运行，并能够随系统启动而自动启动，可以使用 Systemd 创建一个服务。创建一个新的服务文件（例如 your_service_name.service）并进行编辑
+
+sudo vi /etc/systemd/system/your_service_name.service
+
+10.在服务文件中，添加以下内容
+
+[Unit]
+Description=Your Go + Iris Application
+After=network.target
+
+[Service]
+ExecStart=/path/to/your_executable_file
+
+[Install]
+WantedBy=multi-user.target
+
+将 /path/to/your_executable_file 替换为你的可执行文件的路径。保存并关闭文件。
+
+11.启动服务：启动服务并使其在系统启动时自动启动
+sudo systemctl start your_service_name
+sudo systemctl enable your_service_name
+
+12.更多其他指令
+sudo systemctl stop your_service_name
+sudo systemctl restart your_service_name
+sudo systemctl status your_service_name
+
+13.删除服务方法
+
+>停止服务
+    sudo systemctl stop your_service_name
+>禁用服务，以防止它在系统启动时自动启动
+    sudo systemctl disable your_service_name
+>卸载服务，删除相关的配置文件和单位文件
+    sudo systemctl reset-failed your_service_name
+    sudo systemctl daemon-reload
+    sudo rm /etc/systemd/system/your_service_name.service
+>重新加载 systemd 配置
+    sudo systemctl daemon-reload
+
+14.查看所有服务
+systemctl list-units --type=service
+
+上述命令将显示系统中所有的服务单元，其中 --type=service 参数用于过滤只显示服务单元。该命令将输出每个服务的状态、名称和描述。
+
+如果你只想查看运行状态的服务，可以使用 --state=running 参数
+systemctl list-units --type=service --state=running
+
+```
