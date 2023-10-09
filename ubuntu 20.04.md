@@ -141,6 +141,10 @@ npm install -g yarn
 node -v
 ```
 
+```其他补充
+sudo apt install build-essential
+```
+
 
 
 

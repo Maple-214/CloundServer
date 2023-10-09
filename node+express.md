@@ -18,6 +18,9 @@ pm2 startup systemd
 启动 进入项目目录
 pm2 start ./bin/www
 
+重启项目
+pm2 restart id
+
 # 停止名为 "myapp" 的应用程序
 pm2 stop myapp
 
@@ -42,5 +45,5 @@ npm i -g typescript
 pm2 install typescript
 
 进入项目
-pm2 start --interpreter ts-node-dev app.js
+pm2 start --interpreter ts-node-dev app.ts
 ```
